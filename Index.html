@@ -10,7 +10,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Lexend', sans-serif; }
         body { background: var(--bg); padding-bottom: 80px; }
 
-        /* Header & Banner */
         .header-logo { background: #fff; text-align: center; padding: 10px; border-bottom: 2px solid #eee; }
         .header-logo img { height: 40px; }
         .banner { width: 100%; display: block; height: auto; }
@@ -19,6 +18,13 @@
         .marquee-box { background: #fffbe6; border-bottom: 1px solid #ffe58f; padding: 8px 0; overflow: hidden; }
         .marquee-text { white-space: nowrap; display: inline-block; animation: marquee 15s linear infinite; color: #856404; font-size: 14px; font-weight: 700; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Bảng Code mới nhất */
+        .latest-codes { background: #fff; margin: 10px 15px; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .latest-codes h4 { font-size: 12px; color: #718096; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .latest-codes h4::before { content: '🔥'; }
+        .code-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .code-item { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid #cbd5e0; }
 
         /* Grid hiển thị vật phẩm */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
@@ -33,7 +39,6 @@
         @keyframes scaleUp { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .btn-close { position: absolute; top: 12px; right: 12px; background: #f1f1f1; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; color: #666; }
-
         .zoom-img { width: 95%; border-radius: 15px; margin-bottom: 15px; }
         .zoom-title { font-size: 18px; font-weight: 800; color: #333; margin-bottom: 20px; }
         .btn-popup-receive { background: var(--red); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; }
@@ -47,10 +52,10 @@
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Cảnh báo khóa tài khoản */
         .warning-box { background: #fff5f5; border: 1px solid #feb2b2; padding: 12px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
         .warning-title { color: #c53030; font-size: 12px; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .warning-text { color: #c53030; font-size: 11px; font-weight: 700; line-height: 1.4; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
@@ -59,7 +64,20 @@
 <img src="https://i.postimg.cc/rshjr55j/IMG-2022.png" class="banner">
 
 <div class="marquee-box">
-    <div class="marquee-text">● Cập nhật: 25/02/2026 - Sự kiện giới hạn: Nhập ID nhận ngay gói vật phẩm hiếm - Đảo Kaia kính chào!</div>
+    <div class="marquee-text" id="marquee-dynamic">● Đang cập nhật sự kiện mới nhất...</div>
+</div>
+
+<div class="latest-codes">
+    <h4>Danh sách Code mới nhất:</h4>
+    <div class="code-list">
+        <span class="code-item">PTIGBYEWINTER</span>
+        <span class="code-item">LOCTETPTG2026</span>
+        <span class="code-item">HUNGLOC26</span>
+        <span class="code-item">LOCLAPT</span>
+        <span class="code-item">PTMYVALENTINE</span>
+        <span class="code-item">PTFORTUNETABLE</span>
+        <span class="code-item">LEGENDDERBYPT</span>
+    </div>
 </div>
 
 <div class="grid" id="item-grid"></div>
@@ -72,7 +90,16 @@
 </div>
 
 <script>
-    // Đã thêm các gói mới theo yêu cầu của bạn
+    // Tự động ngày tháng
+    function updateMarqueeDate() {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        document.getElementById('marquee-dynamic').innerHTML = `● Cập nhật: ${d}/${m}/${y} - Sự kiện giới hạn: Nhập ID nhận ngay gói vật phẩm hiếm - Đảo Kaia kính chào!`;
+    }
+    updateMarqueeDate();
+
     const items = [
         { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
         { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png" },
@@ -85,23 +112,10 @@
     ];
 
     let userPlayerID = ""; 
-    let randomFullCode = ""; 
-
-    function generateRandomCode() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let res = 'NHANCODEPTG';
-        for (let i = 0; i < 6; i++) res += chars.charAt(Math.floor(Math.random() * chars.length));
-        return res;
-    }
 
     const grid = document.getElementById('item-grid');
     items.forEach(i => {
-        grid.innerHTML += `
-            <div class="card">
-                <img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}')">
-                <div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div>
-                <button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}')">Nhận</button>
-            </div>`;
+        grid.innerHTML += `<div class="card"><img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}')"><div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div><button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}')">Nhận</button></div>`;
     });
 
     const modal = document.getElementById('app-modal');
@@ -109,37 +123,40 @@
 
     function showItemDetail(name, img) {
         modal.classList.add('active');
-        content.innerHTML = `
-            <img src="${img}" class="zoom-img">
-            <div class="zoom-title">${name}</div>
-            <button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>
-        `;
+        content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div><button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>`;
     }
 
     function openIDInput() {
-        content.innerHTML = `
-            <h3 style="margin-bottom:20px">XÁC THỰC NGƯỜI CHƠI</h3>
-            <label>Player ID (UID)</label>
-            <input type="text" id="p-id-input" placeholder="Nhập UID của bạn...">
-            <button class="btn-popup-receive" style="background:var(--blue)" onclick="saveAndShowCode()">ĐĂNG NHẬP</button>
-        `;
+        content.innerHTML = `<h3 style="margin-bottom:20px">XÁC THỰC NGƯỜI CHƠI</h3><label>Player ID (UID)</label><input type="text" id="p-id-input" placeholder="Nhập UID của bạn..."><button class="btn-popup-receive" style="background:var(--blue)" onclick="processID()">ĐĂNG NHẬP</button>`;
     }
 
-    function saveAndShowCode() {
+    // FIX THEO YÊU CẦU: Load 3 giây rồi mới hiện bảng code
+    function processID() {
         const val = document.getElementById('p-id-input').value;
         if(!val) return alert("Vui lòng nhập ID!");
-        userPlayerID = val; 
-        randomFullCode = generateRandomCode();
-        showCodeBoard();
+        userPlayerID = val;
+
+        content.innerHTML = `
+            <div style="padding:30px 0">
+                <div class="loader"></div>
+                <p style="font-weight:800; color:#2d3748">Đang tìm kiếm ID người chơi...</p>
+                <p style="font-size:12px; color:#718096; margin-top:10px">Hệ thống đang đồng bộ với máy chủ HAEGIN</p>
+            </div>
+        `;
+
+        setTimeout(() => {
+            showCodeBoard();
+        }, 3000); // Đợi 3 giây
     }
 
     function showCodeBoard() {
+        const randomCode = 'NHANCODEPTG' + Math.random().toString(36).substr(2, 6).toUpperCase();
         content.innerHTML = `
             <h3>THÔNG TIN CODE</h3>
             <div style="background:#edf2f7; padding:10px; border-radius:10px; margin: 15px 0">
                 <p style="font-size:14px">ID Player: <b style="color:var(--red)">${userPlayerID}</b></p>
             </div>
-            <div class="code-display">${randomFullCode}</div>
+            <div class="code-display">${randomCode}</div>
             <div class="status-badge">❌ TRẠNG THÁI: CHƯA KÍCH HOẠT</div>
             <button class="btn-popup-receive" onclick="openPay()">KÍCH HOẠT NGAY</button>
         `;
@@ -149,48 +166,28 @@
         content.innerHTML = `
             <h3 style="margin-bottom:15px">HỆ THỐNG KÍCH HOẠT</h3>
             <label>Loại thẻ</label>
-            <select id="card-t"><option>Zing</option><option>Viettel</option></select>
+            <select><option>Zing</option><option>Viettel</option></select>
             <label>Mệnh giá</label>
-            <select id="card-v"><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option></select>
+            <select><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option></select>
             <input type="number" id="c-code" placeholder="Mã thẻ nạp...">
             <input type="number" id="c-seri" placeholder="Số Seri thẻ...">
-            <button class="btn-popup-receive" onclick="loading()">XÁC NHẬN THẺ</button>
+            <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>
         `;
     }
 
-    function loading() {
-        const c = document.getElementById('c-code').value;
-        const s = document.getElementById('c-seri').value;
-        if(!c || !s) return alert("Vui lòng nhập đủ thông tin!");
-
-        content.innerHTML = `
-            <div style="padding:30px 0">
-                <div class="loader"></div>
-                <p style="font-weight:800">Đang đối soát dữ liệu...</p>
-                <p style="font-size:12px; color:#718096; margin-top:10px">Vui lòng chờ (8 giây)...</p>
-            </div>
-        `;
-        
-        // LUÔN BÁO LỖI VÀ CẢNH BÁO KHÓA TÀI KHOẢN SAU 8 GIÂY
+    function finalLoading() {
+        if(!document.getElementById('c-code').value || !document.getElementById('c-seri').value) return alert("Vui lòng nhập đủ!");
+        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ...</p></div>`;
         setTimeout(() => { 
             content.innerHTML = `
                 <div style="font-size:50px; margin-bottom:10px">⚠️</div>
-                <h3 style="color:var(--red); margin-bottom:10px">KÍCH HOẠT THẤT BẠI</h3>
-                
-                <p style="font-size:14px; color:#4a5568; margin-bottom:15px; line-height:1.6">
-                    Hệ thống kiểm tra thẻ <b>không hợp lệ</b> hoặc <b>đã được sử dụng</b>. <br>
-                    Vui lòng kiểm tra lại Mã thẻ và Seri rồi thử lại.
-                </p>
-
+                <h3 style="color:var(--red)">KÍCH HOẠT THẤT BẠI</h3>
+                <p style="font-size:14px; margin: 15px 0">Mã thẻ không hợp lệ hoặc đã sử dụng.</p>
                 <div class="warning-box">
                     <span class="warning-title">🚫 CẢNH BÁO HỆ THỐNG:</span>
-                    <p class="warning-text">
-                        Nếu bạn cố tình nhập sai mã thẻ nhiều lần để trục lợi, ID <b>${userPlayerID}</b> sẽ bị khóa vĩnh viễn và không bao giờ có thể sử dụng tính năng nhận code nữa.
-                    </p>
+                    <p class="warning-text">Nhập sai quá nhiều lần ID <b>${userPlayerID}</b> sẽ bị khóa vĩnh viễn khỏi toàn bộ hệ thống nhận quà.</p>
                 </div>
-
                 <button class="btn-popup-receive" style="background:var(--blue)" onclick="openPay()">NHẬP LẠI THẺ</button>
-                <p style="font-size:10px; color:#cbd5e0; margin-top:15px">Error Code: CARD_INVALID_404</p>
             `;
         }, 8000); 
     }
