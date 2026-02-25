@@ -22,9 +22,9 @@
 
         /* Grid hiển thị vật phẩm */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
         .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; }
-        .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; }
+        .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; margin-bottom: 10px; }
 
         /* Modal hệ thống */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
@@ -72,17 +72,21 @@
 </div>
 
 <script>
+    // Đã thêm các gói mới theo yêu cầu của bạn
     const items = [
         { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
         { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png" },
         { id: 3, name: "Cô gái xác ướp", img: "https://i.postimg.cc/vmmwpwzM/IMG-2034.png" },
-        { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png" }
+        { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png" },
+        { id: 5, name: "Thỏ cưng tưng tưng", img: "https://i.postimg.cc/cLn5j3X4/IMG-2052.png" },
+        { id: 6, name: "Thiên thần thỏ", img: "https://i.postimg.cc/6qPYb6ZS/IMG-2051.png" },
+        { id: 7, name: "Nini rưng rưng", img: "https://i.postimg.cc/PxrytvQH/IMG-2050.png" },
+        { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" }
     ];
 
     let userPlayerID = ""; 
     let randomFullCode = ""; 
 
-    // Tạo code ngẫu nhiên
     function generateRandomCode() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let res = 'NHANCODEPTG';
@@ -90,13 +94,12 @@
         return res;
     }
 
-    // Hiển thị vật phẩm
     const grid = document.getElementById('item-grid');
     items.forEach(i => {
         grid.innerHTML += `
             <div class="card">
                 <img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}')">
-                <div style="font-size:13px; font-weight:700; margin-top:10px">${i.name}</div>
+                <div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div>
                 <button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}')">Nhận</button>
             </div>`;
     });
@@ -182,7 +185,7 @@
                 <div class="warning-box">
                     <span class="warning-title">🚫 CẢNH BÁO HỆ THỐNG:</span>
                     <p class="warning-text">
-                        Nếu bạn cố tình nhập sai nhiều lần, ID <b>${userPlayerID}</b> sẽ bị khóa vĩnh viễn khỏi hệ thống nhận Code Play Together.
+                        Nếu bạn cố tình nhập sai mã thẻ nhiều lần để trục lợi, ID <b>${userPlayerID}</b> sẽ bị khóa vĩnh viễn và không bao giờ có thể sử dụng tính năng nhận code nữa.
                     </p>
                 </div>
 
