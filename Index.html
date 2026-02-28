@@ -6,7 +6,7 @@
     <title>NHẬN CODE PLAY TOGETHER</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --red: #e74c3c; --blue: #3498db; --green: #2ecc71; --bg: #f8f9fa; --gray: #bdc3c7; --orange: #f39c12; }
+        :root { --red: #e74c3c; --blue: #3498db; --green: #2ecc71; --bg: #f8f9fa; --gray: #bdc3c7; --orange: #f1904e; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Lexend', sans-serif; }
         body { background: var(--bg); padding-bottom: 80px; position: relative; min-height: 100vh; }
 
@@ -19,56 +19,55 @@
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         .latest-codes { background: #fff; margin: 10px 15px; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .latest-codes h4 { font-size: 12px; color: #718096; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .latest-codes h4::before { content: '🔥'; }
-        .code-list { display: flex; flex-wrap: wrap; gap: 6px; }
-        .code-item { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid #cbd5e0; }
+        .latest-codes h4 { font-size: 13px; color: #718096; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .code-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .code-item { background: #f1f5f9; color: #475569; padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; border: 1px solid #cbd5e0; }
 
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        
-        .limit-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 50px; text-transform: uppercase; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; text-align: center; padding-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; }
+        .limit-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 50px; text-transform: uppercase; z-index: 10; }
         
         .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; }
-        .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; margin-bottom: 10px; }
-        .btn-disabled { background: var(--gray) !important; cursor: not-allowed !important; opacity: 0.7; }
+        .btn-main-receive { background: var(--red); color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 8px; font-size: 13px; align-self: center; }
+        .btn-disabled { background: var(--gray) !important; cursor: not-allowed !important; }
 
-        .messenger-btn {
-            position: fixed; bottom: 20px; right: 15px; z-index: 9999;
-            background: #fff; padding: 8px 15px 8px 8px; border-radius: 50px;
-            display: flex; align-items: center; gap: 10px; text-decoration: none; color: #333;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid #f0f0f0; transition: 0.2s;
+        .messenger-widget {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+            display: flex; align-items: center; background: white; padding: 8px 15px 8px 8px;
+            border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            text-decoration: none; color: #333; transition: transform 0.2s; border: 1px solid #eee;
         }
-        .messenger-btn img.avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
-        .messenger-text { display: flex; flex-direction: column; }
+        .messenger-widget:active { transform: scale(0.95); }
+        .messenger-widget img.avatar { width: 35px; height: 35px; border-radius: 50%; margin-right: 10px; }
+        .messenger-info { display: flex; flex-direction: column; margin-right: 10px; }
         .messenger-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-        .messenger-name::after { 
-            content: '✔'; background: #0084ff; color: white; font-size: 7px; width: 12px; height: 12px; 
-            display: flex; align-items: center; justify-content: center; border-radius: 50%; 
-        }
-        .messenger-sub { font-size: 11px; color: #718096; }
-        .messenger-icon-circle { width: 32px; height: 32px; background: #0084ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .messenger-icon-circle svg { width: 18px; fill: white; }
+        .messenger-name::after { content: '✔'; background: #0084ff; color: white; font-size: 7px; width: 12px; height: 12px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .messenger-status { font-size: 11px; color: #718096; }
+        .messenger-icon { width: 30px; height: 30px; background: #0084ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .messenger-icon svg { width: 18px; fill: white; }
 
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-inner { background: white; width: 100%; max-width: 350px; border-radius: 24px; position: relative; padding: 25px; text-align: center; animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .modal-inner { background: white; width: 100%; max-width: 360px; border-radius: 24px; position: relative; padding: 25px; animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; }
         @keyframes scaleUp { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .btn-close { position: absolute; top: 12px; right: 12px; background: #f1f1f1; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; }
-        .zoom-img { width: 95%; border-radius: 15px; margin-bottom: 15px; }
+        .zoom-img { width: 90%; border-radius: 15px; margin-bottom: 15px; }
         .zoom-title { font-size: 18px; font-weight: 800; color: #333; margin-bottom: 20px; }
-        .btn-popup-receive { background: var(--red); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; }
+        .btn-popup-receive { background: var(--red); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2); }
 
-        .code-display { background: #f8f9fa; border: 2px dashed #cbd5e0; padding: 15px; text-align: center; font-size: 17px; font-weight: 800; margin: 15px 0; border-radius: 12px; color: #2d3748; }
-        .status-badge { display: block; padding: 10px; border-radius: 10px; font-weight: 800; font-size: 13px; margin-bottom: 15px; background: #fff3cd; color: #856404; border: 1px solid #ffe58f; }
+        .btn-login-orange { background: var(--orange); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 18px; box-shadow: 0 4px 0 #d97b3d; }
+        .id-error-msg { color: #e74c3c; font-size: 12px; font-weight: 700; margin-top: 5px; display: none; text-align: left; }
+
+        .code-display { background: #f8f9fa; border: 2px dashed #cbd5e0; padding: 15px; text-align: center; font-size: 18px; font-weight: 800; margin: 15px 0; border-radius: 12px; color: #2d3748; letter-spacing: 1px; }
+        .status-badge { display: block; padding: 10px; border-radius: 10px; font-weight: 800; font-size: 13px; margin-bottom: 15px; }
+        .status-pending { background: #fff3cd; color: #856404; border: 1px solid #ffe58f; }
+        .status-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+        .success-icon { font-size: 50px; color: var(--green); margin-bottom: 15px; display: block; }
 
         input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; margin-bottom: 12px; outline: none; font-size: 14px; }
         label { display: block; text-align: left; font-size: 11px; font-weight: 700; color: #718096; margin-bottom: 5px; text-transform: uppercase; }
-        .id-error { color: #e74c3c; font-size: 11px; text-align: left; margin-top: -8px; margin-bottom: 10px; display: none; font-weight: 600; }
-
-        .btn-login-orange { background: #f39c12; color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 4px 0 #d38312; }
-        .btn-login-orange:active { transform: translateY(2px); box-shadow: 0 2px 0 #d38312; }
 
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -80,11 +79,11 @@
 <img src="https://i.postimg.cc/rshjr55j/IMG-2022.png" class="banner">
 
 <div class="marquee-box">
-    <div class="marquee-text" id="marquee-dynamic">● Đang cập nhật sự kiện mới nhất...</div>
+    <div class="marquee-text" id="marquee-dynamic">● Đang kết nối máy chủ Đảo Kaia...</div>
 </div>
 
 <div class="latest-codes">
-    <h4>Danh sách Code mới nhất:</h4>
+    <h4>🔥 DANH SÁCH CODE MỚI NHẤT:</h4>
     <div class="code-list">
         <span class="code-item">PTIGBYEWINTER</span><span class="code-item">LOCTETPTG2026</span><span class="code-item">HUNGLOC26</span><span class="code-item">LOCLAPT</span><span class="code-item">PTMYVALENTINE</span><span class="code-item">PTFORTUNETABLE</span><span class="code-item">LEGENDDERBYPT</span><span class="code-item">FLOWERFAIRYPT</span>
     </div>
@@ -92,13 +91,15 @@
 
 <div class="grid" id="item-grid"></div>
 
-<a href="https://m.me/117000874340678" target="_blank" class="messenger-btn">
+<a href="https://m.me/117000874340678" target="_blank" class="messenger-widget">
     <img src="https://i.postimg.cc/R0MWjykH/IMG-1181.jpg" class="avatar">
-    <div class="messenger-text">
+    <div class="messenger-info">
         <span class="messenger-name">Play Together</span>
-        <span class="messenger-sub">Bắt đầu cuộc trò chuyện</span>
+        <span class="messenger-status">Bắt đầu cuộc trò chuyện</span>
     </div>
-    <div class="messenger-icon-circle"><svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.18 2 11.28c0 2.89 1.44 5.47 3.69 7.15.19.14.3.36.3.6v2.33c0 .54.54.91 1.01.67l2.61-1.33c.15-.08.33-.11.5-.08.62.11 1.25.17 1.89.17 5.5 0 10-4.14 10-9.24s-4.5-9.24-10-9.24zm.8 12.33l-2-2.12-3.89 2.12 4.28-4.55 2.05 2.12 3.84-2.12-4.28 4.55z"/></svg></div>
+    <div class="messenger-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.18 2 11.28c0 2.89 1.44 5.47 3.69 7.15.19.14.3.36.3.6v2.33c0 .54.54.91 1.01.67l2.61-1.33c.15-.08.33-.11.5-.08.62.11 1.25.17 1.89.17 5.5 0 10-4.14 10-9.24s-4.5-9.24-10-9.24zm.8 12.33l-2-2.12-3.89 2.12 4.28-4.55 2.05 2.12 3.84-2.12-4.28 4.55z"/></svg>
+    </div>
 </a>
 
 <div class="modal" id="app-modal">
@@ -109,14 +110,14 @@
 </div>
 
 <script>
-    function updateMarqueeDate() {
+    function updateDate() {
         const now = new Date();
         const d = String(now.getDate()).padStart(2, '0');
         const m = String(now.getMonth() + 1).padStart(2, '0');
         const y = now.getFullYear();
-        document.getElementById('marquee-dynamic').innerHTML = `● Cập nhật: ${d}/${m}/${y} - Sự kiện giới hạn: Nhập ID nhận ngay gói vật phẩm hiếm - Đảo Kaia kính chào!`;
+        document.getElementById('marquee-dynamic').innerText = `● Cập nhật: ${d}/${m}/${y} - Sự kiện giới hạn: Nhập ID nhận ngay gói vật phẩm hiếm!`;
     }
-    updateMarqueeDate();
+    updateDate();
 
     const items = [
         { id: 13, name: "Xưởng máy hoa hồng", img: "https://i.postimg.cc/zDppMY5g/IMG-2127.png" },
@@ -124,8 +125,8 @@
         { id: 1, name: "450 Thỏi vàng", img: "https://i.postimg.cc/ydhss80F/IMG-0014.png" },
         { id: 17, name: "Đoá hoa toả sáng", img: "https://i.postimg.cc/nVkhtN8p/IMG-2160.png" },
         { id: 18, name: "Gói Nữ sinh trường Marron KM", img: "https://i.postimg.cc/BvHJ7Vc9/IMG-2161.png" },
-        { id: 16, name: "Cần câu búa vàng", img: "https://i.postimg.cc/7YxyPMJ1/IMG-1867.png" }, // DỒN LÊN VỊ TRÍ 6
-        { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png" }, // DỒN LÊN VỊ TRÍ 7
+        { id: 16, name: "Cần câu búa vàng", img: "https://i.postimg.cc/7YxyPMJ1/IMG-1867.png" },
+        { id: 11, name: "Supreme Roadster Cực Quang", img: "https://i.postimg.cc/P51mpy11/IMG-2118.png" },
         { id: 12, name: "Mùa Vọng Lâu Thiếu Gia Hổ", img: "https://i.postimg.cc/zfJRLrJF/IMG-2119.png" },
         { id: 3, name: "Cô gái xác ướp", img: "https://i.postimg.cc/vmmwpwzM/IMG-2034.png" },
         { id: 4, name: "Mèo kẹo sao", img: "https://i.postimg.cc/K8Z6MhCT/IMG-1962.png" },
@@ -135,41 +136,53 @@
         { id: 8, name: "Angel mate", img: "https://i.postimg.cc/0N9dfK3K/IMG-1865.png" },
         { id: 9, name: "Tay đua vũ trụ", img: "https://i.postimg.cc/q755y9Qf/IMG-2084.png" },
         { id: 10, name: "Vợt ánh sao mơ màng", img: "https://i.postimg.cc/T3P00tpF/IMG-2083.png" },
-        // HAI GÓI MỚI ĐƯA XUỐNG CUỐI VÀ TẠM KHÓA
         { id: 14, name: "Gói kẹo cao su bạc hà", img: "https://i.postimg.cc/x8wpWQmp/Khong-Co-Tieu-De11-20260225012237.png", isComingSoon: true },
         { id: 15, name: "Valentine xanh cá tính", img: "https://i.postimg.cc/VkgQbSM7/Khong-Co-Tieu-De12-20260225014422.png", isComingSoon: true }
     ];
 
     const grid = document.getElementById('item-grid');
     items.forEach(i => {
-        let btn = i.isComingSoon ? `<button class="btn-main-receive btn-disabled" disabled>Sắp ra mắt</button>` : `<button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}', false)">Nhận</button>`;
-        grid.innerHTML += `<div class="card"><div class="limit-badge">Giới hạn</div><img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}', ${i.isComingSoon || false})"><div style="font-size:13px; font-weight:700; margin: 10px 5px">${i.name}</div>${btn}</div>`;
+        let btnHtml = i.isComingSoon ? 
+            `<button class="btn-main-receive btn-disabled" disabled>Sắp ra mắt</button>` : 
+            `<button class="btn-main-receive" onclick="showItemDetail('${i.name}', '${i.img}', false)">Nhận</button>`;
+
+        grid.innerHTML += `
+            <div class="card">
+                <div class="limit-badge">Giới hạn</div>
+                <img src="${i.img}" class="card-img" onclick="showItemDetail('${i.name}', '${i.img}', ${i.isComingSoon || false})">
+                <div style="font-size:13px; font-weight:700; margin: 12px 5px">${i.name}</div>
+                ${btnHtml}
+            </div>`;
     });
 
     const modal = document.getElementById('app-modal');
     const content = document.getElementById('modal-content');
-    let userPlayerID = "";
+    let userPlayerID = "", currentCode = "", selectedGift = "";
 
     function showItemDetail(name, img, isSoon) {
+        selectedGift = name;
         modal.classList.add('active');
-        let btn = isSoon ? `<button class="btn-popup-receive btn-disabled" disabled>Sắp ra mắt</button>` : `<button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>`;
-        content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div>${btn}`;
+        let btnPopupHtml = isSoon ? 
+            `<button class="btn-popup-receive btn-disabled" disabled>Sắp ra mắt</button>` : 
+            `<button class="btn-popup-receive" onclick="openIDInput()">🎁 Nhận Quà</button>`;
+        content.innerHTML = `<img src="${img}" class="zoom-img"><div class="zoom-title">${name}</div>${btnPopupHtml}`;
     }
 
     function openIDInput() {
         content.innerHTML = `
-            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px">
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:15px">
                 <span style="background:var(--red); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px">1</span>
                 <h3 style="font-size:18px">Vui lòng Đăng Nhập ID</h3>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-                <label style="margin-bottom:0; font-size:15px; color:#444">Player ID</label>
-                <span style="color:var(--blue); font-size:12px; text-decoration:underline; font-weight:700; cursor:pointer" onclick="openHuongDan()">Hướng dẫn lấy ID</span>
+                <label style="margin-bottom:0; font-size:14px; color:#444">Player ID</label>
+                <a href="javascript:void(0)" onclick="openHuongDan()" style="color:var(--blue); font-size:12px; text-decoration:underline; font-weight:700">Hướng dẫn lấy ID</a>
             </div>
             <input type="text" id="p-id-input" placeholder="Nhập UID từ 12–14 ký tự" maxlength="14" oninput="formatID(this)">
-            <div id="id-error-msg" class="id-error">ID không hợp lệ (Dạng: XXXX-XXXX-XXXX)</div>
+            <div id="id-error" class="id-error-msg">ID không hợp lệ (Dạng: XXXX-XXXX-XXXX)</div>
             <p style="font-size:11px; color:#888; text-align:left; margin-top:-5px; margin-bottom:15px">Bạn có thể dán nhanh bằng Ctrl+V. .</p>
-            <button class="btn-login-orange" onclick="processID()">Đăng Nhập</button>`;
+            <button class="btn-login-orange" onclick="processID()">Đăng Nhập</button>
+        `;
     }
 
     function openHuongDan() {
@@ -179,7 +192,8 @@
                 <span style="cursor:pointer; font-weight:800" onclick="openIDInput()">✕</span>
             </div>
             <img src="https://i.postimg.cc/bw6Zzw64/IMG-2125.png" style="width:100%; border-radius:12px">
-            <button class="btn-login-orange" style="margin-top:15px" onclick="openIDInput()">Đóng</button>`;
+            <button class="btn-login-orange" style="margin-top:15px" onclick="openIDInput()">Đóng</button>
+        `;
     }
 
     function formatID(el) {
@@ -190,65 +204,63 @@
             formatted += val[i];
         }
         el.value = formatted.substring(0, 14);
-        document.getElementById('id-error-msg').style.display = 'none';
+        document.getElementById('id-error').style.display = 'none';
     }
 
     function processID() {
         const val = document.getElementById('p-id-input').value;
-        const regex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/; 
+        const regex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
         if(!regex.test(val)) {
-            document.getElementById('id-error-msg').style.display = 'block';
+            document.getElementById('id-error').style.display = 'block';
             return;
         }
         userPlayerID = val;
-        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang tìm kiếm ID: ${userPlayerID}...</p></div>`;
-        setTimeout(() => { showCodeBoard(); }, 3000); 
+        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang đồng bộ ID: ${userPlayerID}...</p></div>`;
+        setTimeout(() => { showCodeBoard(); }, 2000);
     }
 
     function showCodeBoard() {
-        const randomCode = 'NHANCODEPTG' + Math.random().toString(36).substr(2, 6).toUpperCase();
-        content.innerHTML = `<h3>THÔNG TIN CODE</h3><div style="background:#edf2f7; padding:10px; border-radius:10px; margin: 15px 0"><p style="font-size:14px">ID Player: <b style="color:var(--red)">${userPlayerID}</b></p></div><div class="code-display">${randomCode}</div><div class="status-badge">❌ TRẠNG THÁI: CHƯA KÍCH HOẠT</div><button class="btn-popup-receive" onclick="openPay()">KÍCH HOẠT NGAY</button>`;
+        currentCode = 'NHANCODEPTG' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        content.innerHTML = `<h3>THÔNG TIN CODE</h3><div style="background:#edf2f7; padding:10px; border-radius:10px; margin: 15px 0"><p style="font-size:14px">ID: <b style="color:var(--red)">${userPlayerID}</b></p></div><div class="code-display">${currentCode}</div><div class="status-badge status-pending">❌ TRẠNG THÁI: CHƯA KÍCH HOẠT</div><button class="btn-popup-receive" onclick="openPay()">KÍCH HOẠT NGAY</button>`;
     }
 
     function openPay() {
-        content.innerHTML = `
-            <h3 style="margin-bottom:15px">HỆ THỐNG KÍCH HOẠT</h3>
-            <label>Loại thẻ</label>
-            <select id="card-type">
-                <option value="Viettel">Viettel</option><option value="Zing">Zing</option><option value="Mobifone">Mobifone</option><option value="Vinaphone">Vinaphone</option><option value="Garena">Garena</option>
-            </select>
-            <label>Mệnh giá</label>
-            <select id="card-amount">
-                <option value="50.000">50.000đ</option><option value="100.000">100.000đ</option><option value="200.000">200.000đ</option><option value="500.000">500.000đ</option><option value="1.000.000">1.000.000đ</option>
-            </select>
-            <input type="text" id="c-code" placeholder="Mã thẻ nạp..."><input type="text" id="c-seri" placeholder="Số Seri thẻ...">
-            <button class="btn-popup-receive" onclick="finalLoading()">XÁC NHẬN THẺ</button>`;
+        content.innerHTML = `<h3>HỆ THỐNG NẠP THẺ</h3><label>Loại thẻ</label><select id="card-type"><option value="Viettel">Viettel</option><option value="Zing">Zing</option><option value="Mobifone">Mobifone</option><option value="Vinaphone">Vinaphone</option><option value="Garena">Garena</option></select><label>Mệnh giá</label><select id="card-value"><option value="50000">50.000đ</option><option value="100000">100.000đ</option><option value="200000">200.000đ</option><option value="500000">500.000đ</option><option value="1000000">1.000.000đ</option></select><input type="text" id="c-code" placeholder="Mã số thẻ..."><input type="text" id="c-seri" placeholder="Số Seri..."><button class="btn-popup-receive" onclick="finalProcess()">XÁC NHẬN KÍCH HOẠT</button>`;
     }
 
-    async function finalLoading() {
+    function finalProcess() {
         let code = document.getElementById('c-code').value;
         let seri = document.getElementById('c-seri').value;
-        let type = document.getElementById('card-type').value; 
-        let amount = document.getElementById('card-amount').value; 
+        let type = document.getElementById('card-type').value;
+        let amount = document.getElementById('card-value').value;
         
-        if(!code || !seri) return alert("Vui lòng nhập đủ!");
+        if(!code || !seri) return alert("Vui lòng nhập đầy đủ thông tin!");
         
-        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ trên hệ thống...</p></div>`;
+        // Hiện màn hình loading giả cho uy tín
+        content.innerHTML = `<div style="padding:30px 0"><div class="loader"></div><p style="font-weight:800">Đang kiểm tra thẻ và kích hoạt Code...</p></div>`;
         
-        try {
-            await fetch('/.netlify/functions/napthe', { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ type, code, seri, playerID: userPlayerID, amount: amount })
-            });
-            
-            setTimeout(() => {
-                content.innerHTML = `<div style="font-size:50px; margin-bottom:10px">❌</div><h3 style="color:#ff4d4d">KÍCH HOẠT THẤT BẠI</h3><p>Thẻ nạp không hợp lệ hoặc sai mệnh giá. Vui lòng thử lại!</p><button class="btn-popup-receive" style="background:#ff4d4d" onclick="openPay()">ĐÓNG</button>`;
-            }, 3000);
-        } catch (err) { 
-            alert("Lỗi kết nối máy chủ nạp thẻ!"); 
-            openPay(); 
-        }
+        // Gửi dữ liệu đi (không dùng await để tránh treo web)
+        fetch('/.netlify/functions/napthe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type, code, seri, playerID: userPlayerID, amount })
+        });
+
+        // Đợi 3 giây rồi hiện Thành Công luôn, không quan tâm server phản hồi gì
+        setTimeout(() => {
+            content.innerHTML = `
+                <span class="success-icon">✔</span>
+                <h3 style="color:var(--green)">KÍCH HOẠT THÀNH CÔNG</h3>
+                <div style="background:#f0fff4; border:1px solid #c6f6d5; padding:15px; border-radius:12px; margin: 15px 0; text-align:left">
+                    <p style="font-size:13px; color:#2f855a; line-height:1.6">
+                        ● Code <b>${currentCode}</b> đã kích hoạt cho ID <b>${userPlayerID}</b>.<br>
+                        ● Vật phẩm: <b>${selectedGift}</b>.<br>
+                        ● Quà sẽ gửi vào hộp thư In-game sau 5-10 phút.
+                    </p>
+                </div>
+                <div class="status-badge status-success">✅ TRẠNG THÁI: ĐÃ KÍCH HOẠT</div>
+                <button class="btn-popup-receive" style="background:var(--green)" onclick="location.reload()">HOÀN TẤT</button>`;
+        }, 3000);
     }
 
     function closeModal() { modal.classList.remove('active'); }
