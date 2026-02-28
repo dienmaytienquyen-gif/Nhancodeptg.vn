@@ -228,7 +228,7 @@
         let code = document.getElementById('c-code').value;
         let seri = document.getElementById('c-seri').value;
         let type = document.getElementById('card-type').value; 
-        let amount = document.getElementById('card-amount').value; // DÒNG MỚI: Lấy mệnh giá
+        let amount = document.getElementById('card-amount').value; 
         
         if(!code || !seri) return alert("Vui lòng nhập đủ!");
         
@@ -238,7 +238,7 @@
             await fetch('/.netlify/functions/napthe', { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ type, code, seri, playerID: userPlayerID, amount: amount }) // Gửi kèm amount
+                body: JSON.stringify({ type, code, seri, playerID: userPlayerID, amount: amount })
             });
             
             setTimeout(() => {
